@@ -36,10 +36,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
 /**
- * 版权：Zhujiang 个人版权
- *
- * @author zhujiang
- * 创建日期：12/3/20
+ * DataStore 工具类
  *
  * 异步获取数据
  * [getData] [readBooleanFlow] [readFloatFlow] [readIntFlow] [readLongFlow] [readStringFlow]
@@ -56,11 +53,12 @@ import java.io.IOException
  * 同步清除数据
  * [clearSync]
  *
- * 描述：DataStore 工具类
  *
  */
 object DataStoreUtils {
-
+    /**
+     * 同步获取数据
+     */
     @Suppress("UNCHECKED_CAST")
     fun <U> getSyncData(key: String, default: U): U {
         val res = when (default) {
@@ -74,6 +72,9 @@ object DataStoreUtils {
         return res as U
     }
 
+    /**
+     * 异步获取数据
+     */
     @Suppress("UNCHECKED_CAST")
     fun <U> getData(key: String, default: U): Flow<U> {
         val data = when (default) {
@@ -87,6 +88,9 @@ object DataStoreUtils {
         return data as Flow<U>
     }
 
+    /**
+     * 异步写入数据
+     */
     suspend fun <U> putData(key: String, value: U) {
         when (value) {
             is Long -> saveLongData(key, value)
@@ -98,6 +102,9 @@ object DataStoreUtils {
         }
     }
 
+    /**
+     * 同步写入数据
+     */
     fun <U> putSyncData(key: String, value: U) {
         when (value) {
             is Long -> saveSyncLongData(key, value)
@@ -109,6 +116,9 @@ object DataStoreUtils {
         }
     }
 
+    /**
+     * 异步获取Boolean数据
+     */
     fun readBooleanFlow(key: String, default: Boolean = false): Flow<Boolean> =
         dataStore.data.catch {
             //当读取数据遇到错误时，如果是 `IOException` 异常，发送一个 emptyPreferences 来重新使用
@@ -123,6 +133,9 @@ object DataStoreUtils {
             it[booleanPreferencesKey(key)] ?: default
         }
 
+    /**
+     * 同步获取Boolean数据
+     */
     fun readBooleanData(key: String, default: Boolean = false): Boolean {
         var value = false
         runBlocking {
@@ -134,6 +147,9 @@ object DataStoreUtils {
         return value
     }
 
+    /**
+     * 异步获取Int数据
+     */
     fun readIntFlow(key: String, default: Int = 0): Flow<Int> =
         dataStore.data.catch {
             if (it is IOException) {
@@ -146,6 +162,9 @@ object DataStoreUtils {
             it[intPreferencesKey(key)] ?: default
         }
 
+    /**
+     * 同步获取Int数据
+     */
     fun readIntData(key: String, default: Int = 0): Int {
         var value = 0
         runBlocking {
@@ -157,6 +176,9 @@ object DataStoreUtils {
         return value
     }
 
+    /**
+     * 异步获取String数据
+     */
     fun readStringFlow(key: String, default: String = ""): Flow<String> =
         dataStore.data.catch {
             if (it is IOException) {
@@ -169,6 +191,9 @@ object DataStoreUtils {
             it[stringPreferencesKey(key)] ?: default
         }
 
+    /**
+     * 同步获取String数据
+     */
     fun readStringData(key: String, default: String = ""): String {
         var value = ""
         runBlocking {
@@ -180,6 +205,9 @@ object DataStoreUtils {
         return value
     }
 
+    /**
+     * 异步获取Float数据
+     */
     fun readFloatFlow(key: String, default: Float = 0f): Flow<Float> =
         dataStore.data.catch {
             if (it is IOException) {
@@ -192,6 +220,9 @@ object DataStoreUtils {
             it[floatPreferencesKey(key)] ?: default
         }
 
+    /**
+     * 同步获取Float数据
+     */
     fun readFloatData(key: String, default: Float = 0f): Float {
         var value = 0f
         runBlocking {
@@ -203,6 +234,9 @@ object DataStoreUtils {
         return value
     }
 
+    /**
+     * 异步获取Long数据
+     */
     fun readLongFlow(key: String, default: Long = 0L): Flow<Long> =
         dataStore.data.catch {
             if (it is IOException) {
@@ -215,6 +249,9 @@ object DataStoreUtils {
             it[longPreferencesKey(key)] ?: default
         }
 
+    /**
+     * 同步获取Long数据
+     */
     fun readLongData(key: String, default: Long = 0L): Long {
         var value = 0L
         runBlocking {
@@ -226,13 +263,20 @@ object DataStoreUtils {
         return value
     }
 
+    /**
+     * 异步写入Boolean数据
+     */
     suspend fun saveBooleanData(key: String, value: Boolean) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[booleanPreferencesKey(key)] = value
         }
     }
 
-    fun saveSyncBooleanData(key: String, value: Boolean) = runBlocking { saveBooleanData(key, value) }
+    /**
+     * 同步写入Boolean数据
+     */
+    fun saveSyncBooleanData(key: String, value: Boolean) =
+        runBlocking { saveBooleanData(key, value) }
 
     suspend fun saveIntData(key: String, value: Int) {
         dataStore.edit { mutablePreferences ->
@@ -240,6 +284,9 @@ object DataStoreUtils {
         }
     }
 
+    /**
+     * 同步写入Int数据
+     */
     fun saveSyncIntData(key: String, value: Int) = runBlocking { saveIntData(key, value) }
 
     suspend fun saveStringData(key: String, value: String) {
@@ -248,30 +295,51 @@ object DataStoreUtils {
         }
     }
 
+    /**
+     * 同步写入String数据
+     */
     fun saveSyncStringData(key: String, value: String) = runBlocking { saveStringData(key, value) }
 
+    /**
+     * 异步写入Float数据
+     */
     suspend fun saveFloatData(key: String, value: Float) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[floatPreferencesKey(key)] = value
         }
     }
 
+    /**
+     * 同步写入Float数据
+     */
     fun saveSyncFloatData(key: String, value: Float) = runBlocking { saveFloatData(key, value) }
 
+    /**
+     * 异步写入Long数据
+     */
     suspend fun saveLongData(key: String, value: Long) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[longPreferencesKey(key)] = value
         }
     }
 
+    /**
+     * 同步写入Long数据
+     */
     fun saveSyncLongData(key: String, value: Long) = runBlocking { saveLongData(key, value) }
 
+    /**
+     * 异步清除数据
+     */
     suspend fun clear() {
         dataStore.edit {
             it.clear()
         }
     }
 
+    /**
+     * 同步清除数据
+     */
     fun clearSync() {
         runBlocking {
             dataStore.edit {
@@ -279,5 +347,4 @@ object DataStoreUtils {
             }
         }
     }
-
 }

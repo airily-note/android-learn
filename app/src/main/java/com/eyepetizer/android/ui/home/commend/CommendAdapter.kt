@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2020. vipyinzhiwei <vipyinzhiwei@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eyepetizer.android.ui.home.commend
 
 import android.app.Activity
@@ -152,7 +136,9 @@ class CommendAdapter(val fragment: CommendFragment, val dataList: List<HomePageR
                 holder.tvTitle.text = item.data.header.title
                 holder.tvRightText.text = item.data.header.rightText
                 holder.tvRightText.setOnClickListener {
+                    //事件总线 发送通知Tab页切换界面
                     EventBus.getDefault().post(SwitchPagesEvent(com.eyepetizer.android.ui.community.commend.CommendFragment::class.java))
+                    //事件总线 发送通知刷新界面消息
                     EventBus.getDefault().post(RefreshEvent(CommunityFragment::class.java))
                 }
                 item.data.itemList.forEachIndexed { index, it ->

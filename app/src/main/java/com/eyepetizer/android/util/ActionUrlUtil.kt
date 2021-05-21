@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2020. vipyinzhiwei <vipyinzhiwei@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eyepetizer.android.util
 
 import android.app.Activity
@@ -70,6 +54,7 @@ object ActionUrlUtil {
                 "${toastTitle},${GlobalUtil.getString(R.string.currently_not_supported)}".showToast()
             }
             decodeUrl.startsWith(Const.ActionUrl.HP_SEL_TAB_TWO_NEWTAB_MINUS_THREE) -> {
+                //事件总线 发送通知Tab页切换界面
                 EventBus.getDefault().post(SwitchPagesEvent(DailyFragment::class.java))
             }
             decodeUrl.startsWith(Const.ActionUrl.CM_TAGSQUARE_TAB_ZERO) -> {
@@ -85,7 +70,9 @@ object ActionUrlUtil {
                 "${toastTitle},${GlobalUtil.getString(R.string.currently_not_supported)}".showToast()
             }
             decodeUrl.startsWith(Const.ActionUrl.HP_NOTIFI_TAB_ZERO) -> {
+                //事件总线 发送通知Tab页切换界面
                 EventBus.getDefault().post(SwitchPagesEvent(PushFragment::class.java))
+                //事件总线 发送通知刷新界面消息
                 EventBus.getDefault().post(RefreshEvent(PushFragment::class.java))
             }
             decodeUrl.startsWith(Const.ActionUrl.TOPIC_DETAIL) -> {
