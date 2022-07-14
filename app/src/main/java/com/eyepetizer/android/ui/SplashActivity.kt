@@ -44,9 +44,12 @@ class SplashActivity : BaseActivity() {
         get() = _binding!!
 
     private val job by lazy { Job() }
-
+    //启动屏持续时间
     private val splashDuration = 3 * 1000L
 
+    /**
+     * 窗口的透明度动画效果
+     */
     private val alphaAnimation by lazy {
         AlphaAnimation(0.5f, 1.0f).apply {
             duration = splashDuration
@@ -54,6 +57,9 @@ class SplashActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 缩放动画
+     */
     private val scaleAnimation by lazy {
         ScaleAnimation(1f, 1.05f, 1f, 1.05f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
             duration = splashDuration
@@ -63,6 +69,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //调用请求写入存储授权
         requestWriteExternalStoragePermission()
     }
 
@@ -76,6 +83,7 @@ class SplashActivity : BaseActivity() {
         super.setupViews()
         binding.ivSlogan.startAnimation(alphaAnimation)
         binding.ivSplashPicture.startAnimation(scaleAnimation)
+        //协程处理
         CoroutineScope(job).launch {
             delay(splashDuration)
             MainActivity.start(this@SplashActivity)
@@ -84,6 +92,9 @@ class SplashActivity : BaseActivity() {
         isFirstEntryApp = false
     }
 
+    /**
+     * 请求写入存储授权
+     */
     private fun requestWriteExternalStoragePermission() {
         PermissionX.init(this@SplashActivity).permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .onExplainRequestReason { scope, deniedList ->
@@ -95,10 +106,14 @@ class SplashActivity : BaseActivity() {
                 scope.showForwardToSettingsDialog(deniedList, message, GlobalUtil.getString(R.string.settings), GlobalUtil.getString(R.string.cancel))
             }
             .request { allGranted, grantedList, deniedList ->
+                //请求读取手机信息授权
                 requestReadPhoneStatePermission()
             }
     }
 
+    /**
+     * 请求读取手机信息授权
+     */
     private fun requestReadPhoneStatePermission() {
         PermissionX.init(this@SplashActivity).permissions(Manifest.permission.READ_PHONE_STATE)
             .onExplainRequestReason { scope, deniedList ->

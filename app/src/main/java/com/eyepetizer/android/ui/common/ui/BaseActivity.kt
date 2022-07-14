@@ -40,7 +40,9 @@ open class BaseActivity : AppCompatActivity() {
      */
     protected var activity: Activity? = null
 
-    /** 当前Activity的弱引用，防止内存泄露  */
+    /**
+     * 当前Activity的弱引用，防止内存泄露
+     */
     private var activityWR: WeakReference<Activity>? = null
 
     /**
@@ -125,11 +127,15 @@ open class BaseActivity : AppCompatActivity() {
         setupViews()
     }
 
+    /**
+     * 安装界面
+     */
     protected open fun setupViews() {
         val navigateBefore = findViewById<ImageView>(R.id.ivNavigateBefore)
         val tvTitle = findViewById<TextView>(R.id.tvTitle)
         navigateBefore?.setOnClickListener { finish() }
-        tvTitle?.isSelected = true  //获取焦点，实现跑马灯效果。
+        //获取焦点，实现跑马灯效果。
+        tvTitle?.isSelected = true
 
     }
 

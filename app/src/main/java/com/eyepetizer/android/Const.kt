@@ -24,6 +24,9 @@ package com.eyepetizer.android
  */
 interface Const {
 
+    /**
+     * 视图类型
+     */
     interface ItemViewType {
 
         companion object {
@@ -82,6 +85,9 @@ interface Const {
         }
     }
 
+    /**
+     * 操作url
+     */
     interface ActionUrl {
         companion object {
 
@@ -113,6 +119,9 @@ interface Const {
         }
     }
 
+    /**
+     * 提示
+     */
     interface Toast {
 
         companion object {
@@ -121,8 +130,13 @@ interface Const {
         }
     }
 
+    /**
+     * URL常量
+     */
     interface Url {
-
+        /**
+         * 伴生对象,伴生对象在类中只能存在一个,类似Java的静态成员
+         */
         companion object {
 
             const val AUTHOR_LOGIN = "http://open.eyepetizer.net/#!/login"
@@ -141,8 +155,13 @@ interface Const {
         }
     }
 
+    /**
+     * 自定义事件ID常量
+     */
     interface Mobclick {
-
+        /**
+         * 伴生对象,伴生对象在类中只能存在一个,类似Java的静态成员
+         */
         companion object {
 
             const val EVENT1 = "10001"

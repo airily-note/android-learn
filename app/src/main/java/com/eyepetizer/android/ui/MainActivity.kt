@@ -94,6 +94,9 @@ class MainActivity : BaseActivity() {
         setTabSelection(0)
     }
 
+    /**
+     * 消息事件
+     */
     override fun onMessageEvent(messageEvent: MessageEvent) {
         super.onMessageEvent(messageEvent)
         when {
@@ -105,6 +108,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 后退事件
+     */
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
@@ -113,6 +119,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 退出程序事件
+     */
     private fun processBackPressed() {
         val now = System.currentTimeMillis()
         if (now - backPressTime > 2000) {
